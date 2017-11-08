@@ -1,0 +1,84 @@
+﻿#include <iostream>
+#include <string>
+#include <algorithm>
+
+std::string username;
+int accountMoneyMatthew = 0;
+int accountMoneyPeter = 0;
+
+
+std::string bankLogin(){
+    std::string password;
+    std::string loggedIn;
+    int lockNum = 0;
+    while (lockNum < 3 && loggedIn != "true"){
+    std::cout << "Welcome to Goodwin Bank." << std::endl;
+    std::cout << "Username: " << std::endl;
+    std::cin >> username;
+    std::cout << "Password: " << std::endl;
+    std::cin >> password;
+
+    if (username == "MatthewGoodwin" && password == "Dollar"){
+        std::cout << "Access Granted. Hello " << username << "." << std::endl;
+        loggedIn = "true";
+        }
+        else if (username == "PeterBaxter" && password == "Money$"){
+            std::cout << "Access Granted. Hello " << username << "." << std::endl;
+            loggedIn = "true";
+        }
+        else{
+            std::cout << "Access denied." << std::endl;
+            loggedIn = "false";
+            lockNum++;
+        }
+    }
+    if (lockNum == 3){
+      std::cout << "Due to too many password attempts, you will be locked out" << std::endl;
+      quick_exit(EXIT_SUCCESS);
+    }
+    return username;
+  }
+
+void bankAccount(){
+    std::string response;
+    float moneyChange;
+    if (username == "MatthewGoodwin"){
+        std::cout << "Your account balance is £" << accountMoneyMatthew << "." << std::endl;
+    }
+    else if (username == "PeterBaxter"){
+        std::cout << "Your account balance is £" << accountMoneyPeter << "." << std::endl;
+    }
+    std::cout << "Would you like to withdraw or add funds?" << std::endl;
+    std::cin >> response;
+    std::transform(response.begin(), response.end(), response.begin(), ::tolower);
+    std::cout << "How much money?" << std::endl;
+    std::cin >> moneyChange;
+    if (response == "withdraw")
+    {
+        if (username == "MatthewGoodwin"){
+            accountMoneyMatthew = accountMoneyMatthew - moneyChange;
+        }
+        if (username == "PeterBaxter"){
+            accountMoneyPeter = accountMoneyPeter - moneyChange;
+        }
+    }
+       if (response == "add")
+    {
+        if (username == "MatthewGoodwin"){
+            accountMoneyMatthew = accountMoneyMatthew + moneyChange;
+        }
+        if (username == "PeterBaxter"){
+            accountMoneyPeter = accountMoneyPeter + moneyChange;
+        }
+    }
+    bankAccount();
+}
+
+
+
+int main()
+{
+    bankLogin();
+    bankAccount();
+ 
+}
