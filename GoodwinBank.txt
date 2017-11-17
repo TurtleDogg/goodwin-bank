@@ -3,8 +3,8 @@
 #include <algorithm>
 
 std::string username;
-int accountMoneyMatthew = 0;
-int accountMoneyPeter = 0;
+float accountMoneyMatthew;
+float accountMoneyPeter;
 
 
 std::string bankLogin(){
@@ -42,6 +42,7 @@ std::string bankLogin(){
 void bankAccount(){
     std::string response;
     float moneyChange;
+    std::string continueResponse;
     if (username == "MatthewGoodwin"){
         std::cout << "Your account balance is £" << accountMoneyMatthew << "." << std::endl;
     }
@@ -71,14 +72,54 @@ void bankAccount(){
             accountMoneyPeter = accountMoneyPeter + moneyChange;
         }
     }
-    bankAccount();
+    if (username == "MatthewGoodwin"){
+        std::cout << "Your account balance is £" << accountMoneyMatthew << "." << std::endl;
+    }
+    else if (username == "PeterBaxter"){
+    std::cout << "Your account balance is £" << accountMoneyPeter << "." << std::endl;
+    }
+    std::cout << "Do you want to continue?" << std::endl;
+    std::cin >> continueResponse;
+    std::transform(continueResponse.begin(), continueResponse.end(), continueResponse.begin(), ::tolower);
+    if (continueResponse == "yes"){
+        bankAccount();
+    }
+    else{
+    }
+        
 }
 
+void moneyTransfer(){
+    std::string accountResponse;
+    float moneyToTransfer;
+    std::cout << "Do you want to transfer money toq another account?" << std::endl;
+    std::cin >> accountResponse;
+    std::transform(accountResponse.begin(), accountResponse.end(), accountResponse.begin(), ::tolower);
+    if (accountResponse == "yes" && username == "MatthewGoodwin"){
+        std::cout << "Accounts include: PeterBaxter" << std::endl;
+        std::cout << "How much money do you want to send to that account?" << std::endl;
+        std::cin >> moneyToTransfer;
+        accountMoneyPeter = accountMoneyPeter + moneyToTransfer;
+        accountMoneyMatthew = accountMoneyMatthew - moneyToTransfer;
+}
+        else if (accountResponse == "yes" && username == "PeterBaxter"){
+        std::cout << "Accounts include: MatthewGoodwin" << std::endl;
+        std::cout << "How much money do you want to send to that account?" << std::endl;
+        std::cin >> moneyToTransfer;
+        accountMoneyMatthew = accountMoneyMatthew + moneyToTransfer;
+        accountMoneyPeter = accountMoneyPeter - moneyToTransfer;
+        }
+    else{
+        quick_exit(EXIT_SUCCESS);
+    }
+    bankAccount();
+    }
+    
 
 
 int main()
 {
     bankLogin();
     bankAccount();
- 
+    moneyTransfer();
 }
